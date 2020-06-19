@@ -1,0 +1,8 @@
+{
+    "server": {
+        "host": "",
+        "port": 7000,
+        "listen": 5,
+        "recv": 1024
+    }
+}
