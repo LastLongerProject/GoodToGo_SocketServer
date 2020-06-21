@@ -5,12 +5,21 @@ from threading import *
 
 def threadWork(client):
     while True:
-        msg = client.recv(1024)
-        if not msg:
-            pass
-        else:
-            print("Client send: " + msg)
-            client.send("You say: " + msg + "\r\n")
+        try:
+            req = client.recv(1024)
+            if len(req) is 0:
+                break
+            else:
+                msg = req.decode("utf8")
+                print("Client send: " + msg)
+                reply = "You say: " + msg
+                client.send(reply.encode("utf8"))
+        except UnicodeDecodeError:
+            print("Unsupported encoding")
+            reply = "Only support 'utf8' encoding bytes\r\n"
+            client.send(reply.encode("utf8"))
+        except KeyboardInterrupt:
+            break
     client.close()
 
 
@@ -21,13 +30,20 @@ except socket.error as msg:
     sys.exit(1)
 
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-sock.bind(('', 54321))
+sock.bind(('', 7000))
 sock.listen(5)
 
 while True:
-    (csock, adr) = sock.accept()
-    print("Client Info: ", csock, adr)
-    threadWork(csock)
-    # start_new_thread(threadWork, (csock,))
+    try:
+        (csock, adr) = sock.accept()
+        print("Client Info: ", csock, adr)
+        threadWork(csock)
+        # start_new_thread(threadWork, (csock,))
+    except (SystemExit, KeyboardInterrupt):
+        print("Exiting....")
+        break
+    except Exception as ex:
+        print("======> Fatal Error....\n" + str(ex))
+        raise
 
 sock.close()
