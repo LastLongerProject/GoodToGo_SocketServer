@@ -1,4 +1,4 @@
-from package.Api.API import Jwt, jwt
+from package.Api.JWT import Jwt, jwt
 from package.Util import randHex
 import requests
 import time
