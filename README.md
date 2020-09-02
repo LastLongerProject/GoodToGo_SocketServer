@@ -16,7 +16,7 @@
 ^(RTN|RLD)_\w{4}_\d{6}$
 ```
 
-|              | description                                                                  | length | type              | accept         |
+| column       | description                                                                  | length | type              | accept         |
 | ------------ | ---------------------------------------------------------------------------- | ------ | ----------------- | -------------- |
 | request_type | -                                                                            | 3      | string            | ["RTN", "RLD"] |
 | request_id   | You should set an random 4 digit ID for a request to let you track response. | 4      | string or integer | -              |
@@ -44,7 +44,7 @@ RTN_AB12_002020
 ^(SUC|ERR)_\d{3}_\w{4}$
 ```
 
-|               | description                                                          | length | type              | expect         |
+| column        | description                                                          | length | type              | expect         |
 | ------------- | -------------------------------------------------------------------- | ------ | ----------------- | -------------- |
 | response_type | -                                                                    | 3      | string            | ["SUC", "ERR"] |
 | status_code   | Describe response status. Check [Status Code](#status-code) section. | 3      | integer           | -              |
@@ -75,6 +75,10 @@ SUC_001_AB12
 
 ## TODO
 
-- Response System
+- Response Module
 - Api Binding
 - Threading
+- Acc Debounce
+- Timeout (PING/PONG)
+- Env
+- Firewall
