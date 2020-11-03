@@ -9,8 +9,6 @@
 - [Links](#links)
 - [To-do List](#to-do-list)
 
----
-
 ## API Document
 
 ### Send Request to Server
@@ -92,14 +90,9 @@ SUC_001_AB12
 - 998 **INTERNAL Server Error**
 - 999 **Unknown Server Error**
 
----
-
 ## Links
 
-- Recommended Socket Server/Client for Testing: [
-  SocketTest](http://sockettest.sourceforge.net/)
-
----
+- Recommended Socket Server/Client for Testing: [SocketTest](http://sockettest.sourceforge.net/)
 
 ## To-do List
 
