@@ -1,5 +1,5 @@
-from package.Server.Request.Request import Request
-from package.Server.ServerError import ServerError, ServerErrorType
+from package.SocketServer.Request.Request import Request
+from package.SocketServer.ServerError import ServerError, ServerErrorType
 
 
 class ReloadRequest(Request):

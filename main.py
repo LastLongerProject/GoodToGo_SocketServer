@@ -4,7 +4,7 @@ import sys
 
 from package.Config import CONFIG
 from package.Api.API import Api
-from package.Server.Server import SocketServer, socket
+from package.SocketServer.Server import SocketServer
 
 # ApiService = Api()
 # ApiService.setAuthorization(**CONFIG["api"]["key"])

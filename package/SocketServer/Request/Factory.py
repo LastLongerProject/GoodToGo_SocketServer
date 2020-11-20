@@ -1,6 +1,6 @@
 import re
 
-from package.Server.Request import ReloadRequest, ReturnRequest, Request
+from package.SocketServer.Request import ReloadRequest, ReturnRequest, Request
 
 
 REG = re.compile("^(RTN|RLD)_\w{4}_\d{6}$")

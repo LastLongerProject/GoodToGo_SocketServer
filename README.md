@@ -98,6 +98,7 @@ SUC_001_AB12
 
 - Response Module
 - Api Binding
+- Request Error Format
 - Threading
 - Acc Debounce
 - Timeout (PING/PONG)
