@@ -48,21 +48,26 @@ class SocketServer:
                     msg = str.strip(req.decode("utf8"))
                     print("[REQ] " + msg)
                     request = RequestFactory.create(msg)
-                    reply = str(request) + "\r\n"
+                    decoded = str(request)
+                    print("[LOG] " + decoded)
+                    reply = decoded + "\r\n"  # TODO
                     print("[RES] " + str.strip(reply))
                     connection.send(reply.encode("utf8"))
             except RequestError as error:
                 print("[ERR] " + error.message)
-                reply = str(error.error_code) + "\r\n"
+                reply = str(error.error_code) + "\r\n"  # TODO
+                print("[RES] " + str.strip(reply))
                 # reply = str(error.error_code) + " " + error.message + "\r\n"
                 connection.send(reply.encode("utf8"))
             except ServerError:
                 print("[ERR] ServerError")
-                reply = str(error.error_code) + "\r\n"
+                reply = str(error.error_code) + "\r\n"  # TODO
+                print("[RES] " + str.strip(reply))
                 connection.send(reply.encode("utf8"))
             except UnicodeDecodeError:
                 print("[ERR] Unsupported encoding")
-                reply = "Only support 'utf8' encoding bytes\r\n"
+                reply = "Only support 'utf8' encoding bytes\r\n"  # TODO
+                print("[RES] " + str.strip(reply))
                 connection.send(reply.encode("utf8"))
             except ConnectionResetError:
                 break

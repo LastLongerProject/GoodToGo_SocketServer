@@ -4,7 +4,6 @@ from enum import Enum
 
 
 class Request:
-
     def __init__(self, req_id, container_id):
         self.req_id = req_id
         self.container_id = container_id
@@ -15,8 +14,10 @@ class Request:
     def bind(self):
         raise NotImplementedError
 
-    def __str__(self, action):
-        return "REQ#{req_id}: {action} Container #{container_id}".format(action=action, req_id=self.req_id, container_id=self.container_id)
+    def __str__(self, action="Unknown Action"):
+        return "REQ#{req_id}: Container #{container_id} - {action}".format(
+            action=action, req_id=self.req_id, container_id=self.container_id
+        )
 
 
 class RequestError(Exception):
@@ -29,9 +30,3 @@ class RequestError(Exception):
 class RequestType(Enum):
     RETURN = "RTN"
     RELOAD = "RLD"
-
-
-class RequestErrorType(Enum):
-    FORMAT_INVALID = 101
-    CONTAINER_NOT_FOUND = 201
-    CONTAINER_STATE_ERROR = 202
