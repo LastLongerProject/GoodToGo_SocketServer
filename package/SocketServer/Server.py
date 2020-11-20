@@ -6,6 +6,7 @@ from threading import *
 
 from package.SocketServer.Request import RequestFactory, RequestError
 from package.SocketServer.ServerError import ServerError
+from package.Proxy import Proxy
 
 
 class SocketServer:
@@ -17,6 +18,7 @@ class SocketServer:
         sock.listen(listen)
         print("[STR] Socket server Listening on port " + str(port))
         self.sock = sock
+        self.proxy = Proxy()
 
     def start(self):
         while True:
@@ -50,7 +52,8 @@ class SocketServer:
                     request = RequestFactory.create(msg)
                     decoded = str(request)
                     print("[LOG] " + decoded)
-                    reply = decoded + "\r\n"  # TODO
+                    response = self.proxy.solve(request)
+                    reply = str(response) + "\r\n"  # TODO
                     print("[RES] " + str.strip(reply))
                     connection.send(reply.encode("utf8"))
             except RequestError as error:
@@ -59,7 +62,7 @@ class SocketServer:
                 print("[RES] " + str.strip(reply))
                 # reply = str(error.error_code) + " " + error.message + "\r\n"
                 connection.send(reply.encode("utf8"))
-            except ServerError:
+            except ServerError as error:
                 print("[ERR] ServerError")
                 reply = str(error.error_code) + "\r\n"  # TODO
                 print("[RES] " + str.strip(reply))

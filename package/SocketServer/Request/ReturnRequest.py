@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from package.SocketServer.Request.Request import Request
 from package.SocketServer.ServerError import ServerError
 from package.SocketServer.Status import Status
@@ -10,12 +12,12 @@ class ReturnRequest(Request):
         super().__init__(*args, **kwargs)
 
     def solve(self):
-        if not api:
+        if not ReturnRequest.api:
             raise ServerError(Status.INTERNAL_ERROR)
         ReturnRequest.api(self.container_id)
 
     @staticmethod
-    def bind(self, api):
+    def bind(api):
         ReturnRequest.api = api
 
     def __str__(self):

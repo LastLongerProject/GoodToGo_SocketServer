@@ -4,6 +4,7 @@ from enum import Enum
 
 from package.SocketServer.Status import Status
 
+
 class Response:
     def __init__(self, req_id, container_id, status):
         self.req_id = req_id
@@ -17,11 +18,13 @@ class Response:
 
     def send(self):
         return "{response_type}_{status_code}_{request_id}".format(
-            response_type=self.getType(), status_code=self.status, request_id=self.request_id
+            response_type=self.getType(),
+            status_code=self.status,
+            request_id=self.request_id,
         )
 
     def getType(self):
-        if (self.status === Status.SUCCESS)
+        if self.status == Status.SUCCESS:
             return RequestType.SUCCESS
         else:
             return RequestType.ERROR
