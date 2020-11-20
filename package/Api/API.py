@@ -4,7 +4,7 @@ import requests
 import time
 
 '''
-API document: https://api.goodtogo.tw/#api-Containers-Containers_rent_container
+API document: https://doc.goodtogo.tw/#api-Containers-Containers_rent_container
 You can look up all the meaning of status code with the corresponding endpoints in document
 '''
 

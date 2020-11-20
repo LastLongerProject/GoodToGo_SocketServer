@@ -6,7 +6,6 @@ from threading import *
 
 from package.SocketServer.Request import RequestFactory, RequestError
 from package.SocketServer.ServerError import ServerError
-from package.Proxy import Proxy
 
 
 class SocketServer:
@@ -18,9 +17,9 @@ class SocketServer:
         sock.listen(listen)
         print("[STR] Socket server Listening on port " + str(port))
         self.sock = sock
-        self.proxy = Proxy()
 
-    def start(self):
+    def start(self, proxy):
+        self.proxy = proxy
         while True:
             connection = None
             try:

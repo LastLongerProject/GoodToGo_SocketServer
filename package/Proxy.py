@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import package.Api.API
 from package.SocketServer.Request.ReloadRequest import ReloadRequest
 from package.SocketServer.Request.ReturnRequest import ReturnRequest
 from package.SocketServer.Response import Response
@@ -8,7 +7,7 @@ from package.SocketServer.Status import Status
 
 
 class Proxy:
-    def __init__(self):
+    def __init__(self, api):
         ReturnRequest.bind(None)
         ReloadRequest.bind(None)
 
