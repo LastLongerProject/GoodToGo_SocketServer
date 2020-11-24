@@ -18,8 +18,6 @@ class RequestFactory:
         if not REG.match(txt):
             raise Request.RequestError(Status.REQ_FORMAT_INVALID)
         req_type = txt[:3]
-        req_id = txt[4:8]
+        request_id = txt[4:8]
         container_id = int(txt[9:])
-        if not RequestMap[req_type]:
-            raise Request.RequestError(Status.REQ_FORMAT_INVALID)
-        return RequestMap[req_type](req_id, container_id)
+        return RequestMap[req_type](request_id, container_id)

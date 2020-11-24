@@ -8,12 +8,21 @@ from package.SocketServer.Status import Status
 
 class Proxy:
     def __init__(self, api):
-        ReturnRequest.bind(None)
-        ReloadRequest.bind(None)
+        ReturnRequest.bind(api.returnContainer)
+        ReloadRequest.bind(api.reloadContainer)
 
     def solve(self, request):
         if isinstance(request, ReturnRequest) or isinstance(request, ReloadRequest):
             api_result = request.solve()
-            return Response(request.req_id, request.container_id, Status.SUCCESS)
+            if api_result == 200:
+                return Response(
+                    request.request_id, request.container_id, Status.SUCCESS
+                )
+            else:
+                return Response(
+                    request.request_id, request.container_id, Status.API_FAIL
+                )
         else:
-            return Response(request.req_id, request.container_id, Status.INTERNAL_ERROR)
+            return Response(
+                request.request_id, request.container_id, Status.INTERNAL_ERROR
+            )

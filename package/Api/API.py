@@ -8,7 +8,7 @@ API document: https://doc.goodtogo.tw/#api-Containers-Containers_rent_container
 You can look up all the meaning of status code with the corresponding endpoints in document
 """
 
-baseUrl = "https://app.goodtogo.tw"
+baseUrl = "https://app.goodtogo.tw/"
 
 
 class Uri:
@@ -76,11 +76,10 @@ class Api:
         (token, uri) = (json["token"], json["uri"])
         return (r.status_code, token, uri)
 
-    def reloadContainer(self, id, storeId):
+    def reloadContainer(self, id):
         """
-        Discription   - Mark a container as clean after used
+        Description   - Mark a container as clean after used
         Parameters    - id: containerId
-                        storeId: the id of the store where the container used to belong
                         date: timestamps of the action
         Return values - status code(number)
         """
@@ -89,18 +88,20 @@ class Api:
             "apiKey": self.apiKey,
             "Content-Type": "application/json",
         }
-        r = requests.post(
-            baseUrl + self.ver + Uri.reloadContainer + str(id),
-            headers=headers,
-            json={"storeId": storeId},
-        )
+        try:
+            r = requests.post(
+                baseUrl + self.ver + Uri.reloadContainer + str(id),
+                headers=headers,
+            )
+        except EnvironmentError as error:
+            print(error)
+            return None
         return r.status_code
 
-    def returnContainer(self, id, storeId):
+    def returnContainer(self, id):
         """
         Description   - Mark a container as taken back from an user
         Parameters    - id: containerId
-                        storeId: the id of the store you belong
         Return values - status code(number)
                         previous host(string)
                         container id(string)
@@ -111,19 +112,20 @@ class Api:
             "apiKey": self.apiKey,
             "Content-Type": "application/json",
         }
-        r = requests.post(
-            baseUrl + self.ver + Uri.returnContainer + str(id),
-            headers=headers,
-            json={"storeId": storeId},
-        )
+        try:
+            r = requests.post(
+                baseUrl + self.ver + Uri.returnContainer + str(id),
+                headers=headers,
+            )
+        except EnvironmentError as error:
+            print(error)
+            return None
         if r.status_code == 200:
             if r.json()["message"] == "Already Return":
-                return (r.status_code, user, None, None)
-            container = r.json()["containerList"][0]
-            user = r.json()["oriUser"]
-            return (r.status_code, user, str(container["id"]), container["typeName"])
+                return r.status_code
+            return r.status_code
         else:
-            return (r.status_code, "", "", "")
+            return r.status_code
 
     def rentContainer(self, id, userApiKey):
         """
@@ -188,7 +190,7 @@ class Api:
         )
         return r.status_code
 
-    def modiftDeliveryBoxState(self, boxId, newState):
+    def modifyDeliveryBoxState(self, boxId, newState):
         """
         Description     - modify state of the box
         Parameters      - boxId: the id of the box

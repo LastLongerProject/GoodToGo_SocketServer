@@ -5,7 +5,9 @@ import sys
 from threading import *
 
 from package.SocketServer.Request import RequestFactory, RequestError
+from package.SocketServer.Response import ServerErrorParser
 from package.SocketServer.ServerError import ServerError
+from package.SocketServer.Status import Status
 
 
 class SocketServer:
@@ -45,6 +47,8 @@ class SocketServer:
                 req = connection.recv(self.recv)
                 if len(req) == 0:
                     break
+                elif str.strip(req.decode("utf8")) == "PING":
+                    connection.send("PONG".encode("utf8"))
                 else:
                     msg = str.strip(req.decode("utf8"))
                     print("[REQ] " + msg)
@@ -52,23 +56,21 @@ class SocketServer:
                     decoded = str(request)
                     print("[LOG] " + decoded)
                     response = self.proxy.solve(request)
-                    reply = str(response) + "\r\n"  # TODO
+                    reply = response.end() + "\r\n"
                     print("[RES] " + str.strip(reply))
                     connection.send(reply.encode("utf8"))
-            except RequestError as error:
-                print("[ERR] " + error.message)
-                reply = str(error.error_code) + "\r\n"  # TODO
-                print("[RES] " + str.strip(reply))
-                # reply = str(error.error_code) + " " + error.message + "\r\n"
-                connection.send(reply.encode("utf8"))
             except ServerError as error:
-                print("[ERR] ServerError")
-                reply = str(error.error_code) + "\r\n"  # TODO
+                print("[ERR] " + error.message)
+                response = ServerErrorParser(error)
+                reply = response.end() + "\r\n"
                 print("[RES] " + str.strip(reply))
                 connection.send(reply.encode("utf8"))
             except UnicodeDecodeError:
                 print("[ERR] Unsupported encoding")
                 reply = "Only support 'utf8' encoding bytes\r\n"  # TODO
+                error = ServerError(Status.REQ_FORMAT_INVALID)
+                response = ServerErrorParser(error)
+                reply = response.end() + "\r\n"
                 print("[RES] " + str.strip(reply))
                 connection.send(reply.encode("utf8"))
             except ConnectionResetError:

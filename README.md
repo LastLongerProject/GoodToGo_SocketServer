@@ -3,6 +3,7 @@
 ## Category
 
 - [API Document](#api-document)
+  - [PING/PONG](#ping_pong)
   - [Send Request to Server](#send-request-to-server)
   - [Get Response from Server](#get-response-from-server)
   - [Status Code](#status-code)
@@ -10,6 +11,20 @@
 - [To-do List](#to-do-list)
 
 ## API Document
+
+### PING/PONG
+
+**Send**
+
+```
+PING
+```
+
+**Get**
+
+```
+PONG
+```
 
 ### Send Request to Server
 
@@ -84,8 +99,10 @@ SUC_001_AB12
 **Error**
 
 - 101 **Format of the Request is invalid**
+- 102 **Encoding of the Request is invalid**
 - 201 **Can't Find the Container**
 - 202 **Container's State is Not Ready For that Action**
+- 400 **API return Fail Result**
 - 901 **Connection Closed by Server**
 - 998 **INTERNAL Server Error**
 - 999 **Unknown Server Error**
@@ -96,11 +113,6 @@ SUC_001_AB12
 
 ## To-do List
 
-- Response Module
-- Api Binding
-- Request Error Format
 - Threading
 - Acc Debounce
-- Timeout (PING/PONG)
-- Env
 - Firewall

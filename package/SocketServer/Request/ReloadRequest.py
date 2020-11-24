@@ -13,8 +13,13 @@ class ReloadRequest(Request):
 
     def solve(self):
         if not ReloadRequest.api:
-            raise ServerError(Status.INTERNAL_ERROR)
-        ReloadRequest.api(self.container_id)
+            raise ServerError(
+                Status.INTERNAL_ERROR,
+                self.request_id,
+                self.container_id,
+                "API not bound",
+            )
+        return ReloadRequest.api(self.container_id)
 
     @staticmethod
     def bind(api):

@@ -13,8 +13,13 @@ class ReturnRequest(Request):
 
     def solve(self):
         if not ReturnRequest.api:
-            raise ServerError(Status.INTERNAL_ERROR)
-        ReturnRequest.api(self.container_id)
+            raise ServerError(
+                Status.INTERNAL_ERROR,
+                self.request_id,
+                self.container_id,
+                "API not bound",
+            )
+        return ReturnRequest.api(self.container_id)
 
     @staticmethod
     def bind(api):

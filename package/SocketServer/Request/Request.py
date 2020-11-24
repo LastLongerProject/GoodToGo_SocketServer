@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 from enum import Enum
+from package.SocketServer.ServerError import ServerError
 
 
 class Request:
-    def __init__(self, req_id, container_id):
-        self.req_id = req_id
+    def __init__(self, request_id, container_id):
+        self.request_id = request_id
         self.container_id = container_id
 
     def solve(self):
@@ -15,16 +16,20 @@ class Request:
         raise NotImplementedError
 
     def __str__(self, action="Unknown Action"):
-        return "REQ#{req_id}: Container #{container_id} - {action}".format(
-            action=action, req_id=self.req_id, container_id=self.container_id
+        return "REQ#{request_id}: Container #{container_id} - {action}".format(
+            action=action, request_id=self.request_id, container_id=self.container_id
         )
 
 
-class RequestError(Exception):
-    def __init__(self, error_code, message="Unknown Request Error"):
-        self.error_code = error_code
-        self.message = error_code.name
-        super().__init__(self.message)
+class RequestError(ServerError):
+    def __init__(
+        self,
+        status,
+        request_id="????",
+        container_id="??????",
+        message="Unknown Request Error",
+    ):
+        super().__init__(status, request_id, container_id, message)
 
 
 class RequestType(Enum):
