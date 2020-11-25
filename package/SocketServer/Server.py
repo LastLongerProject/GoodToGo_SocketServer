@@ -48,7 +48,7 @@ class SocketServer:
                 if len(req) == 0:
                     break
                 elif str.strip(req.decode("utf8")) == "PING":
-                    connection.send("PONG".encode("utf8"))
+                    connection.send("PONG\r\n".encode("utf8"))
                 else:
                     msg = str.strip(req.decode("utf8"))
                     print("[REQ] " + msg)
