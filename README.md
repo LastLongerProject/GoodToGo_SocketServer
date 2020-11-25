@@ -101,7 +101,6 @@ SUC_001_AB12
 - 101 **Format of the Request is invalid**
 - 102 **Encoding of the Request is invalid**
 - 201 **Can't Find the Container**
-- 202 **Container's State is Not Ready For that Action**
 - 400 **API return Fail Result**
 - 901 **Connection Closed by Server**
 - 998 **INTERNAL Server Error**
@@ -116,3 +115,8 @@ SUC_001_AB12
 - Threading
 - Acc Debounce
 - Firewall
+- Connection health check (Check if client didn't disconnect, Check if internet didn't disconnect)
+
+## To-do List
+
+- Using non-secure connection to secure server will cause Error
