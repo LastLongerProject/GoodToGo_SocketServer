@@ -117,6 +117,6 @@ SUC_001_AB12
 - Firewall
 - Connection health check (Check if client didn't disconnect, Check if internet didn't disconnect)
 
-## To-do List
+## Known Error
 
 - Using non-secure connection to secure server will cause Error
