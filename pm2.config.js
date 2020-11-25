@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "socket_server",
+      name: "socket_server_ssl",
       script: "./main.py",
       watch: true,
       interpreter: "python3",
