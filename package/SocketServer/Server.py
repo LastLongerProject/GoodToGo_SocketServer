@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import socket
+import ssl
 import sys
 from threading import *
 
@@ -11,14 +12,17 @@ from package.SocketServer.Status import Status
 
 
 class SocketServer:
-    def __init__(self, recv=1024, port=7000, listen=5):
+    def __init__(self, cert, recv=1024, port=7000, listen=5):
         self.recv = recv
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        context.load_cert_chain(cert[0], cert[1])
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(("", port))
         sock.listen(listen)
+        ssock = context.wrap_socket(sock, server_side=True)
         print("[STR] Socket server Listening on port " + str(port))
-        self.sock = sock
+        self.sock = ssock
 
     def start(self, proxy):
         self.proxy = proxy
