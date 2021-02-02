@@ -23,7 +23,10 @@ class ReturnRequest(Request):
 
     @staticmethod
     def bind(api):
-        ReturnRequest.api = api
+        if ReturnRequest.api == None:
+            ReturnRequest.api = api
+        else
+            raise Exception("[ReturnRequest] API is bound already")
 
     def __str__(self):
         return super().__str__("Return")

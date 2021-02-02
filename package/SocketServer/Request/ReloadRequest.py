@@ -23,7 +23,10 @@ class ReloadRequest(Request):
 
     @staticmethod
     def bind(api):
-        ReloadRequest.api = api
+        if ReloadRequest.api == None:
+            ReloadRequest.api = api
+        else
+            raise Exception("[ReloadRequest] API is bound already")
 
     def __str__(self):
         return super().__str__("Reload")
