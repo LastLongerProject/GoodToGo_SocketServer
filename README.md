@@ -60,8 +60,6 @@ RTN_AB12_002020
 | request_id   | You should set an random 4 digit ID for a request to let you track response. | 4      | string or integer | -              |
 | container_id | You should pad this column to 6 digit.                                       | 6      | integer           | -              |
 
----
-
 ### Get Response from Server
 
 **Format**
