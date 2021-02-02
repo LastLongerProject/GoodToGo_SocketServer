@@ -10,6 +10,10 @@
 - [Links](#links)
 - [To-do List](#to-do-list)
 
+## Notice
+
+**NOT every Request will get a Response. Server will filter out the duplicate Request.**
+
 ## API Document
 
 ### PING/PONG
