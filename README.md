@@ -2,6 +2,7 @@
 
 ## Category
 
+- [Notice](#notice)
 - [API Document](#api-document)
   - [PING/PONG](#ping_pong)
   - [Send Request to Server](#send-request-to-server)
@@ -89,8 +90,6 @@ SUC_001_AB12
 | response_type | -                                                                    | 3      | string            | ["SUC", "ERR"] |
 | status_code   | Describe response status. Check [Status Code](#status-code) section. | 3      | integer           | -              |
 | request_id    | The request ID you set.                                              | 4      | string or integer | -              |
-
----
 
 ### Status Code
 
