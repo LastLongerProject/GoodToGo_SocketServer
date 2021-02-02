@@ -10,12 +10,13 @@ from package.SocketServer.Request import RequestFactory, RequestError
 from package.SocketServer.Response import ServerErrorParser
 from package.SocketServer.ServerError import ServerError
 from package.SocketServer.Status import Status
+from package.RequestHandler import RequestHandler
 
 
 def logHeaderGenerater(connection_id):
     return {
         "ERR": "[ERR_{connection_id}] ".format(connection_id=connection_id),
-        "LOG": "[ERR_{connection_id}] ".format(connection_id=connection_id),
+        "LOG": "[LOG_{connection_id}] ".format(connection_id=connection_id),
         "STR": "[STR_{connection_id}] ".format(connection_id=connection_id),
         "REQ": "[REQ_{connection_id}] ".format(connection_id=connection_id),
         "RES": "[RES_{connection_id}] ".format(connection_id=connection_id),
@@ -39,8 +40,7 @@ class SocketServer:
         self.input = [ssock]
         self.logHeaderPool = {}
 
-    def start(self, proxy):
-        self.proxy = proxy
+    def start(self):
         while True:
             try:
                 readable, _, exceptional = select.select(self.input, [], self.input)
@@ -59,9 +59,7 @@ class SocketServer:
                 for sck in exceptional:
                     log_header = self.logHeaderPool[sck]
                     print(log_header["END"] + "Connection closed by Error")
-                    sck.close()
-                    self.input.remove(sck)
-                    del self.logHeaderPool[sck]
+                    self.closeConnection(sck)
             except ssl.SSLError as error:
                 print("[END_???] Connection closed by NoneSSL")
             except (SystemExit, KeyboardInterrupt):
@@ -72,15 +70,18 @@ class SocketServer:
         print("[END_SOC] Server closed")
         self.sock.close()
 
+    def closeConnection(self, connection):
+        self.input.remove(connection)
+        connection.close()
+        del self.logHeaderPool[connection]
+
     def handle(self, connection):
         log_header = self.logHeaderPool[connection]
         try:
             req = connection.recv(self.recv)
             if len(req) == 0:
                 print(log_header["END"] + "Connection closed by client")
-                connection.close()
-                self.input.remove(connection)
-                del self.logHeaderPool[connection]
+                self.closeConnection(connection)
             elif str.strip(req.decode("utf8")) == "PING":
                 connection.send("PONG\r\n".encode("utf8"))
             else:
@@ -89,10 +90,13 @@ class SocketServer:
                 request = RequestFactory.create(msg)
                 decoded = str(request)
                 print(log_header["LOG"] + decoded)
-                response = self.proxy.solve(request)
-                reply = response.end() + "\r\n"
-                print(log_header["RES"] + str.strip(reply))
-                connection.send(reply.encode("utf8"))
+
+                def doneRequest(response):
+                    reply = response.end() + "\r\n"
+                    print(log_header["RES"] + str.strip(reply))
+                    connection.send(reply.encode("utf8"))
+
+                RequestHandler.solve(request, doneRequest)
         except ServerError as error:
             print(log_header["ERR"] + error.message)
             response = ServerErrorParser(error)
@@ -108,6 +112,4 @@ class SocketServer:
             connection.send(reply.encode("utf8"))
         except ConnectionResetError:
             print(log_header["END"] + "Connection closed by client")
-            connection.close()
-            self.input.remove(connection)
-            del self.logHeaderPool[connection]
+            self.closeConnection(connection)

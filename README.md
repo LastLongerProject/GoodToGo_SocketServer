@@ -113,6 +113,4 @@ SUC_001_AB12
 
 ## To-do List
 
-- Threading
-- Acc Debounce
-- Firewall
+- Error Status

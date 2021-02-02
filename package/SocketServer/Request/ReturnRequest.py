@@ -11,7 +11,7 @@ class ReturnRequest(Request):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def solve(self):
+    def solve(self, done):
         if not ReturnRequest.api:
             raise ServerError(
                 Status.INTERNAL_ERROR,
@@ -19,13 +19,13 @@ class ReturnRequest(Request):
                 self.container_id,
                 "API not bound",
             )
-        return ReturnRequest.api(self.container_id)
+        return ReturnRequest.api(self.container_id, done)
 
     @staticmethod
     def bind(api):
         if ReturnRequest.api == None:
             ReturnRequest.api = api
-        else
+        else:
             raise Exception("[ReturnRequest] API is bound already")
 
     def __str__(self):

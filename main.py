@@ -3,20 +3,19 @@
 import sys
 
 from package.Config import CONFIG
-from package.Proxy import Proxy
+from package.RequestHandler import RequestHandler
 from package.Api.API import Api
 from package.SocketServer.Server import SocketServer
-
 
 try:
     api_service = Api()
     api_service.setAuthorization(**CONFIG["api"]["key"])
     api_service.setVersion(CONFIG["api"]["version"])
 
-    proxy = Proxy(api_service)
+    RequestHandler.init(api_service)
 
     socket_server = SocketServer(**CONFIG["server"])
-    socket_server.start(proxy)
+    socket_server.start()
 except (SystemExit, KeyboardInterrupt):
     socket_server.close()
     print("[BYE] Exiting....")

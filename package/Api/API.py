@@ -83,6 +83,8 @@ class Api:
                         date: timestamps of the action
         Return values - status code(number)
         """
+        if not isinstance(id, list):
+            id = [id]
         headers = {
             "Authorization": Jwt.addDate(self.secretKey),
             "apiKey": self.apiKey,
@@ -90,8 +92,9 @@ class Api:
         }
         try:
             r = requests.post(
-                baseUrl + self.ver + Uri.reloadContainer + str(id),
+                baseUrl + self.ver + Uri.reloadContainer + "list",
                 headers=headers,
+                json={"containers": id},
             )
         except EnvironmentError as error:
             print(error)
@@ -107,6 +110,8 @@ class Api:
                         container id(string)
                         container type(string)
         """
+        if not isinstance(id, list):
+            id = [id]
         headers = {
             "Authorization": Jwt.addDate(self.secretKey),
             "apiKey": self.apiKey,
@@ -114,8 +119,9 @@ class Api:
         }
         try:
             r = requests.post(
-                baseUrl + self.ver + Uri.returnContainer + str(id),
+                baseUrl + self.ver + Uri.returnContainer + "list",
                 headers=headers,
+                json={"containers": id},
             )
         except EnvironmentError as error:
             print(error)

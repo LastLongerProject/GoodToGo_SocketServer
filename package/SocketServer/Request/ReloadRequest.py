@@ -11,7 +11,7 @@ class ReloadRequest(Request):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def solve(self):
+    def solve(self, done):
         if not ReloadRequest.api:
             raise ServerError(
                 Status.INTERNAL_ERROR,
@@ -19,13 +19,13 @@ class ReloadRequest(Request):
                 self.container_id,
                 "API not bound",
             )
-        return ReloadRequest.api(self.container_id)
+        return ReloadRequest.api(self.container_id, done)
 
     @staticmethod
     def bind(api):
         if ReloadRequest.api == None:
             ReloadRequest.api = api
-        else
+        else:
             raise Exception("[ReloadRequest] API is bound already")
 
     def __str__(self):
