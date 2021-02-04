@@ -113,5 +113,3 @@ SUC_001_AB12
 - Recommended Socket Server/Client for Testing: [SocketTest](http://sockettest.sourceforge.net/)
 
 ## To-do List
-
-- Error Status

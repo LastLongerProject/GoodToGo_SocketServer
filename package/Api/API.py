@@ -2,6 +2,7 @@ from package.Api.JWT import Jwt, jwt
 from package.Util import randHex
 import requests
 import time
+from enum import Enum
 
 """
 API document: https://doc.goodtogo.tw/#api-Containers-Containers_rent_container
@@ -23,6 +24,14 @@ class Uri:
     modifyDeliveryBoxInfo = "/deliveryList/modifyBoxInfo/"
     signDeliveryBox = "/deliveryList/sign"
     modifyDeliveryBoxState = "/deliveryList/changeState"
+
+
+class ContainerActionReply(Enum):
+    SUCCESS = 1
+    CONTAINER_NOT_FOUND = "F002"
+    CONTAINER_NOT_AVAILABLE = "F003"
+    CONTAINER_STATE_ERROR = "H007"
+    UNKNOWN_ERROR = "999"
 
 
 class Api:
@@ -99,7 +108,15 @@ class Api:
         except EnvironmentError as error:
             print(error)
             return None
-        return r.status_code
+        if r.status_code == 200:
+            return ContainerActionReply.SUCCESS
+        elif r.status_code == 403:
+            if ContainerActionReply(r.json()["code"]):
+                return ContainerActionReply(r.json()["code"])
+            else:
+                return ContainerActionReply.UNKNOWN_ERROR
+        else:
+            return ContainerActionReply.UNKNOWN_ERROR
 
     def returnContainer(self, id):
         """
@@ -127,11 +144,14 @@ class Api:
             print(error)
             return None
         if r.status_code == 200:
-            if r.json()["message"] == "Already Return":
-                return r.status_code
-            return r.status_code
+            return ContainerActionReply.SUCCESS
+        elif r.status_code == 403:
+            if ContainerActionReply(r.json()["code"]):
+                return ContainerActionReply(r.json()["code"])
+            else:
+                return ContainerActionReply.UNKNOWN_ERROR
         else:
-            return r.status_code
+            return ContainerActionReply.UNKNOWN_ERROR
 
     def rentContainer(self, id, userApiKey):
         """

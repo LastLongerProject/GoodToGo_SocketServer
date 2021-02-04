@@ -92,6 +92,8 @@ class SocketServer:
                 print(log_header["LOG"] + decoded)
 
                 def doneRequest(response):
+                    decoded = str(response)
+                    print(log_header["LOG"] + decoded)
                     reply = response.end() + "\r\n"
                     print(log_header["RES"] + str.strip(reply))
                     connection.send(reply.encode("utf8"))
