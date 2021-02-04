@@ -64,6 +64,7 @@ class SocketServer:
                 print("[END_???] Connection closed by NoneSSL")
             except (SystemExit, KeyboardInterrupt):
                 self.close()
+                break
         raise SystemExit
 
     def close(self):
