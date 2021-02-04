@@ -68,8 +68,10 @@ class SocketServer:
         raise SystemExit
 
     def close(self):
-        print("[END_SOC] Server closed")
-        self.sock.close()
+        if self.sock:
+            print("[END_SOC] Server closed")
+            self.sock.close()
+            self.sock = None
 
     def closeConnection(self, connection):
         self.input.remove(connection)
