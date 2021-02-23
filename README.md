@@ -57,7 +57,7 @@ RTN_AB12_002020
 
 | column       | description                                                                  | length | type              | accept         |
 | ------------ | ---------------------------------------------------------------------------- | ------ | ----------------- | -------------- |
-| request_type | -                                                                            | 3      | string            | ["RTN", "RLD"] |
+| request_type | -                                                                            | 3      | string            | `RTN` or `RLD` |
 | request_id   | You should set an random 4 digit ID for a request to let you track response. | 4      | string or integer | -              |
 | container_id | You should pad this column to 6 digit.                                       | 6      | integer           | -              |
 
@@ -87,7 +87,7 @@ SUC_001_AB12
 
 | column        | description                                                          | length | type              | expect         |
 | ------------- | -------------------------------------------------------------------- | ------ | ----------------- | -------------- |
-| response_type | -                                                                    | 3      | string            | ["SUC", "ERR"] |
+| response_type | -                                                                    | 3      | string            | `SUC` or `ERR` |
 | status_code   | Describe response status. Check [Status Code](#status-code) section. | 3      | integer           | -              |
 | request_id    | The request ID you set.                                              | 4      | string or integer | -              |
 
@@ -95,21 +95,23 @@ SUC_001_AB12
 
 **Success**
 
-- 001 **Success**
+- `001` **Success**
 
 **Error**
 
-- 101 **Format of the Request is invalid**
-- 102 **Encoding of the Request is invalid**
-- 201 **Can't Find the Container**
-- 202 **Container's State is Not Ready For that Action**
-- 400 **API return Fail Result**
-- 901 **Connection Closed by Server**
-- 998 **INTERNAL Server Error**
-- 999 **Unknown Server Error**
+- `101` **Format of the Request is invalid**
+- `102` **Encoding of the Request is invalid**
+- `201` **Can't Find the Container**
+- `202` **Container's State is Not Ready For that Action**
+- `400` **API return Fail Result**
+- `901` **Connection Closed by Server**
+- `998` **INTERNAL Server Error**
+- `999` **Unknown Server Error**
 
 ## Links
 
 - Recommended Socket Server/Client for Testing: [SocketTest](http://sockettest.sourceforge.net/)
 
 ## To-do List
+
+All done. Well done!
