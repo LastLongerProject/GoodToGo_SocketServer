@@ -60,8 +60,10 @@ class SocketServer:
                     log_header = self.logHeaderPool[sck]
                     print(log_header["END"] + "Connection closed by Error")
                     self.closeConnection(sck)
-            except ssl.SSLError as error:
+            except ssl.SSLError:
                 print("[END_???] Connection closed by NoneSSL")
+            except ConnectionResetError:
+                print("[END_???] Connection reset by peer")
             except (SystemExit, KeyboardInterrupt):
                 self.close()
                 break
